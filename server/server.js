@@ -2,6 +2,7 @@ const express = require("express");
 const db = require("./config/connection");
 // import ApolloServer
 const { ApolloServer } = require("apollo-server-express");
+const { authMiddleware } = require("./utils/auth");
 
 // import our typeDefs and resolvers
 const { typeDefs, resolvers } = require("./schemas");
@@ -12,6 +13,8 @@ const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  //make every request perform an auth check; pass updated req object to resolvers as context
+  context: authMiddleware,
 });
 
 // integrate our Apollo server with the Express application as middleware
