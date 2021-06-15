@@ -6,14 +6,18 @@ import ThoughtList from "../components/ThoughtList";
 
 import { useQuery } from "@apollo/client";
 import { QUERY_USER } from "../utils/queries";
+import { QUERY_USER, QUERY_ME } from "../utils/queries";
+
 const Profile = () => {
   const { username: userParam } = useParams();
 
-  const { loading, data } = useQuery(QUERY_USER, {
+  //if there's a value in userParam from url bar, add that value to run Query_user query
+  //if there's no value, execute query_me query instead
+  const { loading, data } = useQuery(userParam ? QUERY_USER : QUERY_ME, {
     variables: { username: userParam },
   });
-
-  const user = data?.user || {};
+  //when query_me is run, repsonse returns our data; query_user returns data in user property
+  const user = data?.me || data?.user || {};
 
   if (loading) {
     return <div>Loading...</div>;
