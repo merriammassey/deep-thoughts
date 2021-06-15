@@ -7,7 +7,6 @@ import ReactionList from "../components/ReactionList";
 const SingleThought = (props) => {
   const { id: thoughtId } = useParams();
   console.log(thoughtId);
-  const { id: thoughtId } = useParams();
   // query logic for single thought
   const { loading, data } = useQuery(QUERY_THOUGHT, {
     variables: { id: thoughtId },
