@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const db = require("./config/connection");
 // import ApolloServer
@@ -22,6 +23,16 @@ server.applyMiddleware({ app });
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+//in production, if the Node environment is in production, instruct the Express.js server to serve any files in the React application's build directory in the client folder.
+// Serve up static assets
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../client/build")));
+}
+//in production, if we make a GET request to any location on the server that doesn't have an explicit route defined, respond with the production-ready React front-end code
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+});
 
 db.once("open", () => {
   app.listen(PORT, () => {
