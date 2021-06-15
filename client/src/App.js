@@ -11,6 +11,9 @@ import {
   InMemoryCache,
   createHttpLink,
 } from "@apollo/client";
+//middleware function to retrieve toekn and combine it with httpLink
+import { setContext } from "@apollo/client/link/context";
+
 import React from "react";
 
 import Header from "./components/Header";
@@ -22,10 +25,21 @@ const httpLink = createHttpLink({
   uri: "/graphql",
 });
 
+//function to add token to httpLink
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem("id_token");
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    },
+  };
+});
+
 //establish connection to back end servier's graphql endpoint
 const client = new ApolloClient({
-  //establish new link to gql server
-  link: httpLink,
+  //establish new link to gql server...combine autLink and httpLink so every request retrieves token and sets request headers before amking the request to API
+  link: authLink.concat(httpLink),
   //instantiate a new cache object
   cache: new InMemoryCache(),
 });
