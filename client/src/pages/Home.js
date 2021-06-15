@@ -1,7 +1,6 @@
 import React from "react";
 //import useQuery hook from Apollo Client to make requests to gql server made available through ApolloProvider component in App.js
 import { useQuery } from "@apollo/client";
-import { QUERY_THOUGHTS } from "../utils/queries";
 import ThoughtList from "../components/ThoughtList";
 import { QUERY_THOUGHTS, QUERY_ME_BASIC } from "../utils/queries";
 import Auth from "../utils/auth";

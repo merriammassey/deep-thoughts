@@ -22,5 +22,8 @@
   "homepage": "https://github.com/merriammassey/deep-thoughts#readme",
   "devDependencies": {
     "concurrently": "^6.2.0"
+  },
+  "dependencies": {
+    "@apollo/react-hooks": "^4.0.0"
   }
 }
